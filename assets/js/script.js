@@ -68,13 +68,18 @@ var index = $(this)
 .index();
 }); 
 
+
+
 $(".card .list-group").sortable({
   connectWith: $(".card .list-group"),
   scroll: false,
   tolerance: "pointer",
   helper: "clone",
   activate: function(event) {
-    console.log("deactivate", this);
+    console.log("activate", this);
+  },
+  deactivate: function(event) {
+    console.log("deactivate", thi)
   },
   over: function(event) {
     console.log("over", event.target);
