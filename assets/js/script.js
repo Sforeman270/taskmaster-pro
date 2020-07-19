@@ -68,7 +68,21 @@ var index = $(this)
 .index();
 }); 
 
+$("#trash").droppable({
+  accept: ".card .list-group-item",
+  tolerance: "touch",
+  drop: function(event, ui) {
+    
+  },
+  over: function(event, ui) {
+  
+  },
+  out: function(event, ui) {
+  
 
+    ui.draggable.remove();
+  }
+})
 
 $(".card .list-group").sortable({
   connectWith: $(".card .list-group"),
@@ -79,18 +93,44 @@ $(".card .list-group").sortable({
     console.log("activate", this);
   },
   deactivate: function(event) {
-    console.log("deactivate", thi)
+    console.log("deactivate", this)
   },
   over: function(event) {
     console.log("over", event.target);
   },
-  update: function(event) {
+  out: function(event) {
     console.log("out", event.target);
   },
+
   update: function(event) {
-    console.log($("update", this).children());
+
+  var tempArr = [];
+    $(this).children().each(function() {
+      var text = $(this)
+      .find("p")
+      .text()
+      .trim();
+
+      var date = $(this)
+      .find("span")
+      .text()
+      .trim();
+
+      tempArr.push({
+        text: text,
+        date: date
+      });
+     });
+    console.log(tempArr);
   }
 });
+
+var arrName = $(this)
+.attr("id")
+.replace("list-", "");
+
+tasks[arrName] = tempArr;
+saveTasks();
 
 var textInput = $("<textarea>")
 .addClass("form-control")
@@ -132,7 +172,7 @@ $(".list-group").on("click", "span", function() {
     .closest(".list-group-item")
     .index();
 
-    // update task in array and re-save tp localStorage
+    // update task in array and re-save to localStorage
     tasks[status][index].date = date;
     saveTasks();
 
@@ -200,6 +240,8 @@ $("#remove-tasks").on("click", function() {
   }
   saveTasks();
 });
+
+
 
 // load tasks for the first time
 loadTasks();
