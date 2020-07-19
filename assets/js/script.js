@@ -72,17 +72,17 @@ $("#trash").droppable({
   accept: ".card .list-group-item",
   tolerance: "touch",
   drop: function(event, ui) {
-    
+     ui.draggable.remove();
   },
   over: function(event, ui) {
   
   },
   out: function(event, ui) {
   
-
-    ui.draggable.remove();
+  
   }
-})
+  
+});
 
 $(".card .list-group").sortable({
   connectWith: $(".card .list-group"),
@@ -101,11 +101,18 @@ $(".card .list-group").sortable({
   out: function(event) {
     console.log("out", event.target);
   },
-
   update: function(event) {
 
   var tempArr = [];
     $(this).children().each(function() {
+
+var arrName = $(this)
+.attr("id")
+.replace("list-", "");
+
+tasks[arrName] = tempArr;
+saveTasks();
+
       var text = $(this)
       .find("p")
       .text()
@@ -121,16 +128,10 @@ $(".card .list-group").sortable({
         date: date
       });
      });
-    console.log(tempArr);
+    
   }
 });
 
-var arrName = $(this)
-.attr("id")
-.replace("list-", "");
-
-tasks[arrName] = tempArr;
-saveTasks();
 
 var textInput = $("<textarea>")
 .addClass("form-control")
