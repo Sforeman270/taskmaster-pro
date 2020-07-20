@@ -145,7 +145,8 @@ $('.list-group').on('click', 'span', function() {
 
 		var index = $(this).closest('.list-group-item').index();
 
-		tasks[status][index].date = date;
+    tasks[status][index].date = date;
+    console.log(date);
 		saveTasks();
 
 		var taskSpan = $('<span>').addClass('badge badge-primary badge-pill').text(date);
