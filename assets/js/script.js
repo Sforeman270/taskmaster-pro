@@ -151,12 +151,27 @@ $(this).replaceWith(taskP);
 // due date was clicked
 $(".list-group").on("click", "span", function() {
   // get current text
-  var date = $(this)
-  .text()
-  .trim();
+  var date = $(this).text().trim();
 
+  // create new input element
+  var dateInput = $("<input>").attr("type", "text").addClass("form-control").val(date);
+
+  $(this).replaceWith(dateInput);
+
+  // enable jquery ui datepicker
+  dateInput.datepicker({
+    minDate: 1,
+    onClose: function() {
+      // when calendar is closed, force a "change event on the 'dateInput'
+      $(this).trigger("change");
+    }
+  });
+
+  // automatically bring up the calendar
+  dateInput.trigger("focus");
+  
   // value of due date was changed
-  $(".list-group").on("blur", "input[type='text']", function(){
+  $(".list-group").on("change", "input[type='text']", function(){
     // get current text
     var date = $(this)
     .val()
@@ -226,7 +241,7 @@ $("#task-form-modal .btn-primary").click(function() {
     // save in tasks array
     tasks.toDo.push({
       text: taskText,
-      date: taskDate
+      date: taskDate,
     });
 
     saveTasks();
@@ -242,7 +257,9 @@ $("#remove-tasks").on("click", function() {
   saveTasks();
 });
 
-
+$("#modalDueDate").datepicker({
+  minDate: 1
+});
 
 // load tasks for the first time
 loadTasks();
