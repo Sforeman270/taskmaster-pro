@@ -238,3 +238,10 @@ var auditTask = function(taskEl) {
 
 // load tasks for the first time
 loadTasks();
+
+
+setInterval(function() {
+  $(".card .list-group-item").each(funciton (el) {
+    auditTask(el);
+  });
+},(1000 * 60) * 30);
